@@ -13,6 +13,12 @@
   // Icons
   import ChevronIcon from "../../icons/Chevron.svelte";
 
+  // Should we show dropdown menu?
+  let showDropdown = false;
+
+  // Loading indicator
+  let loading = true;
+
   // Let's subscribe to user store and
   // check if it's loaded.
   user.subscribe((value) => {
@@ -27,6 +33,7 @@
   function login() {
     loading = true;
 
+    // 6HqdAABLbMNV
     axios.post(`${$api.url}/callback`, {
       url: `${$general.url}`
     }).then((response) => {
@@ -40,12 +47,6 @@
       console.log(error);
     });
   };
-
-  // Should we show dropdown menu?
-  let showDropdown = false;
-
-  // Loading indicator
-  let loading = true;
 </script>
 
 <div class="relative">
@@ -85,12 +86,12 @@
           }
         }} class="mx-4 rounded-lg hover:bg-gray-200 p-3 hover:shadow-2xl">
           {#if showDropdown}
-            <ChevronIcon size="1" direction="down" />
+            <ChevronIcon size="1.6" direction="down" />
           { :else }
             { #if $user.profiles.length > 1 }
-              <img style="width: 1.2em; height: 1.2em;" src="./icons/users.svg" alt="Users icon">
+              <img style="width: 1.6em; height: 1.6em;" src="./icons/users.svg" alt="Users icon">
             { :else }
-              <img style="width: 1.2em; height: 1.2em;" src="./icons/user.svg" alt="User icon">
+              <img style="width: 1.6em; height: 1.6em;" src="./icons/user.svg" alt="User icon">
             { /if }
           {/if}
         </button>
@@ -119,45 +120,40 @@
   {/if}
 
   { #if showDropdown }
-    <div style="z-index: 3;" class="absolute right-0 mt-2 mr-6 w-full max-w-md py-6 px-4 bg-white rounded-lg shadow-xl flex flex-col justify-center">
-      {#if $user.profiles.length >= 1}
-        <div class="text-center">
-          <h1 class="text-xl font-semibold">Аккаунты</h1>
-      
-          <!-- 
-            Accounts list
-            Here we'll list all user accounts
-            -->
+    <div style="z-index: 3;" class="absolute right-0 mt-2 mr-6 w-full max-w-md py-6 px-4 bg-white shadow-xl flex flex-col justify-center rounded-lg">
+      <div class="text-center">
+        <h1 class="text-xl font-semibold">Аккаунты</h1>
+    
+        <!-- 
+          Accounts list
+          Here we'll list all user accounts
+          -->
 
-          <div class="flex flex-col items-center justify-center mt-2">
-            {#each $user.profiles as profile}
-              <div style="cursor: pointer" class="my-1 items-center hover:bg-gray-200 {$user.current.token == profile.token ? "bg-gray-200 border-solid border-blue-600 border-2" : "bg-white"} border-solid border-white border-2 w-full flex justify-start py-4 px-4 rounded-lg">
-                <div class="flex">
-                  <UserAvatar avatar={profile.avatar} username={profile.username} />
-                  
-                  <div class="ml-4 text-left">
-                    <h1 class="text-semibold">{profile.username.slice(0, 20)}{profile.username.split('').length > 20 ? "..." : ""}</h1>
-                    <p class="text-xs text-gray-700">{profile.email}</p>
-                  </div>
+        <div class="flex flex-col items-center justify-center mt-2">
+          {#each $user.profiles as profile}
+            <div style="cursor: pointer" class="my-1 hover:bg-gray-200 {$user.current.token == profile.token ? "bg-gray-200 border-solid border-blue-600 border-2" : "bg-white"} border-solid border-white border-2 w-full flex justify-start py-4 px-4 rounded-lg">
+              <div class="flex items-center">
+                <UserAvatar avatar={profile.avatar} username={profile.username} />
+                
+                <div class="ml-4 text-left">
+                  <h1 class="text-semibold">{profile.username.slice(0, 20)}{profile.username.split('').length > 20 ? "..." : ""}</h1>
+                  <p class="text-xs text-gray-700">{profile.email}</p>
                 </div>
               </div>
-            {/each}
+            </div>
+          {/each}
+
+          <div on:click={(e) => {
+            window.location.href = `https://account.wavees.co.vu/authorize/add?return=@wavees.co.vu`;
+          }} style="cursor: pointer" class="my-4 bg-gray-100 hover:bg-gray-300 bg-white w-full flex justify-start py-4 px-4 md:px-8 rounded-lg">
+            <div class="flex items-center">
+              <img src="./icons/plus.svg" alt="Add icon">
+              
+              <div class="ml-4">
+                <h1 class="text-semibold">Добавить аккаунт</h1>
+              </div>
+            </div>
           </div>
-        </div>
-      {/if}
-
-      <!-- 
-        Fast settings
-        -->
-      <div class="{ $user.profiles.length > 1 ? "mt-4" : "" } text-center">
-        <h1 class="text-xl font-semibold">Настройки</h1>
-
-        <div class="w-full flex justify-center mt-2">
-          <RoundedButton on:click={(e) => {
-            window.location.href = "https://account.wavees.co.vu/settings?return=@wavees.co.vu";
-          }}>
-            Настройки
-          </RoundedButton>
         </div>
       </div>
     </div>

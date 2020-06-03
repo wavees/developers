@@ -55,102 +55,69 @@ function createUserStore() {
     // Set session/user token (We'll get user information
     // and store it in current object)
     setToken: (token) => {
-      // Let's check for type of this token..
-      // 
-      // TYPES: session, user token
-      axios.get(`${api}/user/${token}`)
+      // Let's get that user object..
+      axios.get(`${api}/account/${token}`)
       .then((response) => {
         let data = response.data;
-        if (!data.error) {
-          // It's an user token!
+        
+        // Let's determine what type of object
+        // is it.
+        if (data.type == "user") {
+          // And now let's populate our store with new data
+          update((object) => {
+            object.loaded = true;
+
+            object.current.token    = token;
+            object.current.email    = data.email;
+            object.current.username = data.username;
+            object.current.avatar   = data.avatar;
+
+            object.tokens           = [token];
+            
+            return object;
+          });
+        } else if (data.type == "session") {
+          // Let's update our store with
+          // new data
+          update((object) => {
+            object.loaded = true;
+
+            object.tokens = data.profiles;
+            return object;
+          });
+
+          // And now let's get some data on current
+          // user account and then let's populate
+          // our store with new data.
+          let currentToken = data.current.token == null ? data.profiles[0] : data.current.token;
+          axios.get(`${api}/account/${currentToken}`)
+          .then((response) => {
+            let data = response.data;
+
+            // And now let's populate our store with new data
+            update((object) => {
+              object.current.token    = currentToken;
+              object.current.email    = data.email;
+              object.current.username = data.username;
+              object.current.avatar   = data.avatar;
+
+              return object;
+              // token: null,
+              // email: null,
+              // username: null,
+              // avatar: null
+            });
+          });
+        } else {
           update((object) => {
             object.loaded = true;
             object.error = null;
 
-            object.current.token = token;
-            object.current.email = data.email;
-            object.current.username = data.username;
-            object.current.avatar = data.avatar;
-
-            object.tokens = [token];
-
             return object;
           });
-        }
+        };
       }).catch((error) => {
-        // Let's check for session token...
-        axios.get(`${api}/accounts/${token}`)
-        .then((response) => {
-          let session = response.data;
 
-          if (session.error) {
-            // User not found
-            update((object) => {
-              object.loaded = true;
-              object.error = null;
-
-              return object;
-            })
-          } else {
-            // User found! Let's get current user object
-            // and then save it's data.
-            let current = session.current;
-            if (current.token == null) {
-              update((object) => {
-                object.loaded = true;
-                object.tokens = session.profiles;
-                object.error = "ChooseAccount";
-
-                return object;
-              });
-            } else {
-              axios.get(`${api}/user/${current.token}`)
-              .then((response) => {
-                let data = response.data;
-
-                if (data.error) {
-                  update((object) => {
-                    object.loaded = true;
-                    object.error = "ChooseAccount";
-                    object.tokens = session.profiles;
-
-                    return object;
-                  })
-                } else {
-                  update((object) => {
-                    object.loaded = true;
-                    object.error = null;
-                    
-                    object.current.token = current.token;
-                    object.current.email = data.email;
-                    object.current.username = data.username;
-                    object.current.avatar = data.avatar;
-
-                    object.tokens = session.profiles;
-
-                    return object;
-                  })
-                }
-              })
-              .catch((error) => {
-                update((object) => {
-                  object.loaded = null;
-                  object.error = error;
-
-                  return object;
-                })
-              })
-            }
-          }
-        })
-        .catch((error) => {
-          update((object) => {
-            object.loaded = null;
-            object.error = error;
-
-            return object;
-          });
-        });
       });
     },
 
@@ -168,11 +135,15 @@ function createUserStore() {
     // Load profiles (their avatars, emails and so on) to
     // local storage.
     loadProfiles: (tokens) => {
+      // Let's firstly clear profiles
+      // array.
       update((object) => {
         object.profiles = [];
         return object;
       });
 
+      // And now let's load a bunch
+      // of new profiles.
       tokens.forEach((token) => {
         loadProfile(token);
       });
@@ -198,13 +169,13 @@ function createUserStore() {
 const user = createUserStore();
 
 async function loadProfile(token) {
-  axios.get(`${api}/user/${token}`)
+  axios.get(`${api}/account/${token}`)
   .then((response) => {
     let data = response.data;
 
-    if (data.error == null) {
-      let account = {
-        id: data._id,
+    if (data.type == "user") {
+      let profile = {
+        id: data.uid,
 
         email: data.email,
         username: data.username,
@@ -213,17 +184,17 @@ async function loadProfile(token) {
         token: token
       };
 
-      user.addProfile(account);
+      user.addProfile(profile);
     };
   }).catch((error) => {
     let data = {};
-    if (error != null) {
+    if (error.response != null) {
       data = error.response.data;
     };
 
     if (data.error != "UserNotFound") {
       loadProfile(token);
-    }
+    };
   });
 };
 

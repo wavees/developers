@@ -29,7 +29,7 @@
 	onMount(() => {
 		let token = cookies.get('_account_token', 
 			{ 
-				domain: "account.wavees.co.vu" 
+				domain: "wavees.co.vu"
 			});
 		
 		if (token != null) {
@@ -43,6 +43,24 @@
 <!-- 
 	Page contents
  -->
-<main>
-	<slot></slot>
-</main>
+
+<svelte:head>
+	<link rel="stylesheet" href="./fonts/Junegull/junegull.css">
+</svelte:head>
+
+{ #if $user.loaded } 
+	<main>
+		<slot></slot>
+	</main>
+{ :else }
+	<div style="height: 100vh;" class="w-full flex justify-center items-center">
+		<!-- Branding -->
+		<div class="flex flex-col justify-center items-center">
+			<div class="flex mb-6 items-center">
+				<h1 style="font-family: Junegull" class="text-2xl text-bold">wavees</h1>
+			</div>
+
+			<Spinner size="25" />
+		</div>
+	</div>
+{ /if }
