@@ -57,3 +57,69 @@ const list = createProjectsListStore();
 
 // And now we need to export this store.
 export { list };
+
+
+// Function, that'll handle process of creation
+// of Current Project store.
+function createCurrentStore() {
+  // Initial store object
+  let store = {
+    loaded: false,
+
+    appId: null,
+
+    branding: {
+      name: null,
+      logotype: null
+    }
+  };
+
+  // Here we'll get some useful things...
+  const { set, update, subscribe } = writable(store);
+
+  // And now we need to return store
+  return {
+    subscribe,
+
+    // loadProject
+    // Loads project with specified id
+    loadProject: (appId) => {
+      axios.get(`${api}/application/${appId}`)
+      .then((response) => {
+        let data = response.data;
+
+        update((object) => {
+          object.loaded            = true;
+          // AppId
+          object.appId             = appId;
+
+          // Branding
+            // Name
+          object.branding.name     = data.name,
+            // Logotype
+          object.branding.logotype = data.logotype;
+
+          return object;
+        });
+      }).catch((error) => {
+        let data = error.response.data || {};
+
+        if (data.error != "NotFound") {
+          current.loadProject(appId);
+        } else {
+          update((object) => {
+            object.loaded = true;
+
+            return object;
+          })
+        }
+      })
+    }
+  }
+};
+
+// now we need to create Current Project store
+const current = createCurrentStore();
+
+// Let's export this store
+export { current };

@@ -63,14 +63,6 @@
 
 { #if !loaded }
   <div out:fade style="height: 100vh; z-index: 2;" class="absolute bg-white inset-x-0 top-0 w-full flex justify-center items-center">
-  	<!-- Branding -->
-		<!-- <div class="flex flex-col justify-center items-center">
-			<div class="flex mb-6 items-center">
-				<h1 style="font-family: Junegull" class="text-2xl text-bold">wavees</h1>
-			</div>
-
-			<Spinner size="25" />
-		</div> -->
   </div>
 { /if }
 

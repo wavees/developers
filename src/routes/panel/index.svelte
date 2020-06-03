@@ -19,7 +19,7 @@
       goto('/panel/projects');
     } else {
       // Here we'll redirect user to application's settings panel
-      goto(`/panel/settings/${appId}`);
+      goto(`/panel/project/${appId}`);
     }
   });
 </script>

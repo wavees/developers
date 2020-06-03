@@ -3,6 +3,7 @@
   import { onMount } from "svelte";
   import { goto } from "@sapper/app";
   import { user } from "../../../config/user.js";
+  import { current } from "../../../config/projects.js";
 
   import Cookie from "cookie-universal";
 
@@ -36,7 +37,11 @@
       // chooser page.
       goto('/panel/projects');
     } else {
-      goto(`/panel/settings/${appId}`);
+      // And now, by the way, we need to load initial
+      // project information.
+      current.loadProject(appId);
+
+      goto(`/panel/project/${appId}`);
     }
   });
 </script>
