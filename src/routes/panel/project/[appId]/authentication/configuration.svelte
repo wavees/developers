@@ -7,18 +7,18 @@
   import { fade } from "svelte/transition";
 
   // Importing components
-  import Spinner from "../../../../components/Loading/Spinner.svelte";
-  import WordAvatar from "../../../../components/Avatar/WordAvatar.svelte";
-  import UserDropdown from "../../../../components/Header/UserDropdown.svelte";
+  import Spinner from "../../../../../components/Loading/Spinner.svelte";
+  import WordAvatar from "../../../../../components/Avatar/WordAvatar.svelte";
+  import UserDropdown from "../../../../../components/Header/UserDropdown.svelte";
 
-  import TransparentButton from "../../../../components/Buttons/TransparentButton.svelte";
-  import RoundedButton from "../../../../components/Buttons/RoundedButton.svelte";
+  import TransparentButton from "../../../../../components/Buttons/TransparentButton.svelte";
+  import RoundedButton from "../../../../../components/Buttons/RoundedButton.svelte";
 
-  import Header from "../../../../components/Layout/Headers/ProjectHeader.svelte";
-  import HeaderItem from "../../../../components/Header/HeaderItem.svelte";
+  import Header from "../../../../../components/Layout/Headers/ProjectHeader.svelte";
 
   // Here we'll import some useful stores..
-  import { user } from "../../../../config/user.js";
+  import { current } from "../../../../../config/projects.js";
+  import { user } from "../../../../../config/user.js";
 
   // Cookie manager
   const cookies = Cookie();
@@ -39,33 +39,55 @@
 { /if }
 
 <div style="min-height: 100vh;" class="w-full relative bg-gray-200">
-  <Header>
-    <!-- Header items -->
-    
-    <!-- Authorization service -->
-    <div on:click={(e) =>{
+  <Header logotype={false} divider={false} returnURL="authentication/configuration">
+    <!-- Go home button -->
+    <div on:click={(e) => {
+      goto(`/panel`);
+    }} style="cursor: pointer;" class="px-4 py-4 mx-1 hover:bg-gray-200 rounded-lg">
+      <!-- Icon -->
+      <img src="./icons/chevron-left.svg" alt="Home Icon">  
+    </div>
+
+    <!-- Home -->
+    <div on:click={(e) => {
       goto(`/panel/project/${cookies.get('_current_appId')}/authentication`);
     }} style="cursor: pointer;" class="px-4 py-2 mx-2 hover:bg-gray-200 flex rounded-lg">
       <!-- Icon -->
-      <img src="./icons/smile.svg" alt="Authorization service Icon">
+      <img src="./icons/home.svg" alt="Homepage Icon">
 
       <!-- Text -->
       <div class="text-left ml-4">
-        <h1 class="text-base text-semibold">Авторизация</h1>
-        <p class="text-xs text-gray-700">Система авторизации</p>
+        <h1 class="text-base text-semibold">Главная</h1>
+        <p class="text-xs text-gray-700">Главная страница</p>
       </div>
     </div>
 
-    <!-- Database services -->
-    <div style="cursor: pointer;" class="px-4 py-2 mx-2 hover:bg-gray-200 flex rounded-lg">
+    <!-- Documentation -->
+    <div on:click={(e) => {
+      goto(`/panel/project/${cookies.get('_current_appId')}/authentication/tutorial`);
+    }} style="cursor: pointer;" class="px-4 py-2 mx-2 hover:bg-gray-200 flex rounded-lg">
       <!-- Icon -->
-      <img src="./icons/file.svg" alt="Datastore Icon">
+      <img src="./icons/book-open.svg" alt="Authorization service Icon">
 
       <!-- Text -->
       <div class="text-left ml-4">
-        <h1 class="text-base text-semibold">Datastore</h1>
-        <p class="text-xs text-gray-700">Хранение данных</p>
+        <h1 class="text-base text-semibold">Документация</h1>
+        <p class="text-xs text-gray-700">Про то, как использовать</p>
       </div>
+    </div>
+
+    <!-- Settings -->
+    <div style="cursor: pointer;" class="px-4 py-2 mx-2 hover:bg-gray-200 flex rounded-lg relative">
+      <!-- Icon -->
+      <img src="./icons/sliders.svg" alt="Authorization service Icon">
+
+      <!-- Text -->
+      <div class="text-left ml-4">
+        <h1 class="text-base text-semibold">Конфигурация</h1>
+        <p class="text-xs text-gray-700">Настройки и настройки</p>
+      </div>
+
+      <div style="height: 2px; border-bottom: 2px solid #4299e1" class="absolute inset-x-0 bottom-0"></div>
     </div>
   </Header>
 

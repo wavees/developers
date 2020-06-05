@@ -2,6 +2,7 @@
   // import
   import { onMount } from "svelte";
   import { goto } from "@sapper/app";
+  
   import Cookie from "cookie-universal";
 
   import { fade } from "svelte/transition";
@@ -12,9 +13,15 @@
   import UserDropdown from "../../components/Header/UserDropdown.svelte";
   import RoundedButton from "../../components/Buttons/RoundedButton.svelte";
 
+  import Header from "../../components/Layout/Headers/PanelHeader.svelte";
+
   // Here we'll import some useful stores..
+  import { stores } from "@sapper/app";
   import { list } from "../../config/projects.js";
   import { user } from "../../config/user.js";
+
+  // Page store
+  const { page } = stores();
 
   // Cookies manager
   const cookies = Cookie();
@@ -56,7 +63,14 @@
   function chooseApplication(appId) {
     cookies.set('_current_appId', appId);
 
-    goto('/panel');
+    // Let's check if we need to return user to
+    // some specific url or not
+    let returnURL = $page.query.return;
+    if (returnURL == null) {
+      goto(`/panel/project/${appId}`);
+    } else {
+      goto(`/panel/project/${appId}/${returnURL}`);
+    }
   };
 
 </script>
@@ -67,29 +81,7 @@
 { /if }
 
 <div style="height: 100vh;" class="w-full relative bg-gray-200">
-  <!-- Header -->
-  <div class="bg-white w-full absolute inset-x-0 top-0 flex justify-between items-center py-2">
-    <!-- Services panel -->
-    <div class="px-6">
-      <div style="cursor: pointer;" class="px-4 py-2 hover:bg-gray-200 flex rounded-lg relative">
-        <!-- Icon -->
-        <img src="./icons/layers.svg" alt="Projects List Icon">
-
-        <!-- Text -->
-        <div class="text-left ml-4">
-          <h1 class="text-base text-semibold">Приложения</h1>
-          <p class="text-xs text-gray-700">Список всех приложений</p>
-        </div>
-
-        <div style="height: 2px; border-bottom: 2px solid #4299e1" class="absolute inset-x-0 bottom-0"></div>
-      </div>
-    </div>
-
-    <!-- User dropdown panel -->
-    <div class="">
-      <UserDropdown />
-    </div>
-  </div>
+  <Header page="projects" />
 
   <!-- Projects list -->
   <div class="w-full h-full pt-24 pb-6 px-4 md:px-16 lg:px-32">

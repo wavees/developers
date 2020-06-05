@@ -40,8 +40,6 @@
       // And now, by the way, we need to load initial
       // project information.
       current.loadProject(appId);
-
-      goto(`/panel/project/${appId}`);
     }
   });
 </script>
