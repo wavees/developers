@@ -1,0 +1,48 @@
+{
+  "bundler": "rollup",
+  "shimport": "1.0.1",
+  "assets": {
+    "main": "client.71a9cd32.js"
+  },
+  "css": {
+    "main": "main.4255739280.css",
+    "chunks": {
+      "index.svelte": [
+        "client.71a9cd32.css"
+      ],
+      "services/authorization.svelte": [
+        "client.71a9cd32.css"
+      ],
+      "login/[token].svelte": [
+        "client.71a9cd32.css"
+      ],
+      "panel/index.svelte": [
+        "client.71a9cd32.css"
+      ],
+      "panel/marketplace.svelte": [
+        "client.71a9cd32.css"
+      ],
+      "panel/projects.svelte": [
+        "client.71a9cd32.css"
+      ],
+      "panel/project/_layout.svelte": [
+        "client.71a9cd32.css"
+      ],
+      "panel/project/index.svelte": [
+        "client.71a9cd32.css"
+      ],
+      "panel/project/[appId]/index.svelte": [
+        "client.71a9cd32.css"
+      ],
+      "panel/project/[appId]/authentication/index.svelte": [
+        "client.71a9cd32.css"
+      ],
+      "panel/project/[appId]/authentication/configuration.svelte": [
+        "client.71a9cd32.css"
+      ],
+      "panel/project/[appId]/authentication/tutorial.svelte": [
+        "client.71a9cd32.css"
+      ]
+    }
+  }
+}

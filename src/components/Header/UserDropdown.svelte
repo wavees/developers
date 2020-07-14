@@ -1,7 +1,7 @@
 <script>
   // import
-  import { api, general } from "../../config/global.js";
-  import { user } from "../../config/user.js";
+  import { api, general } from "../../config/stores/global.js";
+  import { user } from "../../config/stores/user.js";
 
   import axios from "axios";
 

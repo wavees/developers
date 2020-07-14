@@ -7,7 +7,7 @@
 	import { onMount } from "svelte";
 	import { fade } from "svelte/transition";
 
-	import { user } from "../config/user.js";
+	import { user } from "../config/stores/user.js";
 	import Cookie from "cookie-universal";
 
 	// Importing components
@@ -27,10 +27,7 @@
 
 	// onMount
 	onMount(() => {
-		let token = cookies.get('_account_token', 
-			{ 
-				domain: "wavees.co.vu"
-			});
+		let token = cookies.get('_account_token');
 		
 		if (token != null) {
 			user.setToken(token);

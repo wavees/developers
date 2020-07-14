@@ -17,8 +17,8 @@
 
   // Here we'll import some useful stores..
   import { stores } from "@sapper/app";
-  import { list } from "../../config/projects.js";
-  import { user } from "../../config/user.js";
+  import { list } from "../../config/stores/projects.js";
+  import { user } from "../../config/stores/user.js";
 
   // Page store
   const { page } = stores();

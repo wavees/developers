@@ -17,8 +17,8 @@
   import Header from "../../../../../components/Layout/Headers/ProjectHeader.svelte";
 
   // Here we'll import some useful stores..
-  import { current } from "../../../../../config/projects.js";
-  import { user } from "../../../../../config/user.js";
+  import { current } from "../../../../../config/stores/projects.js";
+  import { user } from "../../../../../config/stores/user.js";
 
   // Cookie manager
   const cookies = Cookie();
@@ -92,25 +92,7 @@
   </Header>
 
   <!-- Projects list -->
-  <div class="w-full h-full pt-24 pb-6 px-4 md:px-16 lg:px-32">
-    <div class="relative w-full h-full flex justify-center items-center rounded-lg py-6 shadow-xl bg-white px-4 flex flex-wrap">
-      <div class="flex flex-col justify-center items-center">
-        <img style="width: 30vw;" src="./illustrations/hiking_monochromatic.svg" alt="hiking illustration">
-        <div class="max-w-2xl text-center">
-          <h1 class="text-xl">Покоряйте новые вершины <span class="font-bold">быстро</span> и <span class="font-bold">просто</span></h1>
-          <p class="text-gray-700 text-sm mt-2">Сервисы Wavees для Разработчиков сделанны специально так, что бы их можно было использовать максимально просто и максимально быстро. Мы стремимся к максимальной простоте и к самому минимальному порогу вхождения новых разработчиков. Про другие особенности нашей компании вы сможете узнать ниже, а так же вы сможете узнать про возможности, которые вам даёт Wavees для Разработчиков</p>
-        
-          <div class="flex w-full justify-center mt-6">
-            <TransparentButton classes="mx-4">
-              Узнать про компанию
-            </TransparentButton>
-            
-            <RoundedButton classes="mx-4">
-              Узнать про сервисы
-            </RoundedButton>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div class="w-full h-full pt-20">
+    <iframe style="width: 100%; min-height: 85vh;" title="Documentation" src="http://documentation.wavees.co.vu/#/ru/users/authorization" frameborder="0"></iframe>
   </div>
 </div>

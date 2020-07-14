@@ -8,7 +8,7 @@
   import UserDropdown from "../../Header/UserDropdown.svelte";
 
   // Importing stores...
-  import { current } from "../../../config/projects.js";
+  import { current } from "../../../config/stores/projects.js";
 
   // Cookie manager
   const cookies = Cookie();

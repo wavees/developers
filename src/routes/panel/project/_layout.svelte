@@ -2,8 +2,8 @@
   // import
   import { onMount } from "svelte";
   import { goto } from "@sapper/app";
-  import { user } from "../../../config/user.js";
-  import { current } from "../../../config/projects.js";
+  import { user } from "../../../config/stores/user.js";
+  import { current } from "../../../config/stores/projects.js";
 
   import Cookie from "cookie-universal";
 

@@ -17,8 +17,8 @@
   import Header from "../../../../../components/Layout/Headers/ProjectHeader.svelte";
 
   // Here we'll import some useful stores..
-  import { current } from "../../../../../config/projects.js";
-  import { user } from "../../../../../config/user.js";
+  import { current } from "../../../../../config/stores/projects.js";
+  import { user } from "../../../../../config/stores/user.js";
 
   // Cookie manager
   const cookies = Cookie();
