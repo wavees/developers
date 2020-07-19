@@ -6,7 +6,7 @@ const general =
 readable({
   // Site url
   // Hmm, just site url, isn't it?
-  url: "developers.wavees.co.vu"
+  url: "developer.wavees.co.vu"
 });
 
 export { general };
